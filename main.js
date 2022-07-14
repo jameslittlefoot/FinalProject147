@@ -4,20 +4,27 @@ let	mainTurrent;
 let turPosX = 300;
 let turPosY = 500;
 let targetTimer = 0;
-let balloonSpawnMultiplier = 2;
+let balloonSpawnMultiplier = 1;
 let balloonSizeMultiplier = 2;
 let score = 0;
 let Retry;
-
+let Survived;
+let balloonsMax = 5;
+let balloonsSpawned = 0;
+let balloonsKilledThisWave = 0;
+let balloonsKilledTotal = 0;
 let highScore = 0;
+let waveNum = 1;
 
 
 function setup() {
 	createCanvas(600, 600);
 	angleMode(DEGREES);
 	mainTurrent = new turret(300,300);
+    bLine = new boundaryline();
 	Retry = createButton('retry');
-	Retry.hide();
+    Survived = createButton('Continue')
+	Survived.hide();
 	
 	if (!Cookies.get('highscore')){
 		Cookies.set('highscore', '0');
@@ -37,25 +44,18 @@ function draw() {
 	
 	drawReticle();
 
-      
-        // Set the stroke weight
-        strokeWeight(6);
-          
-        //x1, y1, z1 = 38, 31, 34; 
-        // x2, y2, z2 = 300, 200, 45;
-        // Use line() function to draw line
-        line(0, 450, 600, 450); 
-	
 	//----------------------------------------BALLOONS-SPAWN--------------------------------------
 	targetTimer += 1;
 	let spawnInterval = int(100 / balloonSpawnMultiplier);
 	//print(spawnInterval)
-	if (targetTimer % spawnInterval == 0){
-		let newBalloon = new balloon();
-		targetBalloons.push(newBalloon);
-		score += 5;
-	}
-	
+    if(balloonsSpawned < balloonsMax){
+        if (targetTimer % spawnInterval == 0){
+            let newBalloon = new balloon();
+            targetBalloons.push(newBalloon);
+            balloonsSpawned++;
+            score += 5;
+        }
+    }
 	
 	//----------------------------------------------BULLETS----------------------------------------
 	for (var i = 0; i < bulletsFired.length; i++){
@@ -65,6 +65,8 @@ function draw() {
       		bulletsFired.splice(i,1);
     	}
 		else if (bulletsFired[i].hitScan()){
+            balloonsKilledThisWave++;
+            balloonsKilledTotal++;
       		bulletsFired.splice(i,1);
     	}
 	}
@@ -83,17 +85,23 @@ function draw() {
 	if (balloonSizeMultiplier < 5){
 		balloonSizeMultiplier += 0.001;
 	}
-	
-	//------------------------------------------HERO-AND-HERO-DED---------------------------------------a
+    //------------------------Draw Boundary Line---------------------------------
+    bLine.display();
+    if(bLine.crossedLine()){
+        gameOver();
+    }
+	//------------------------Wave Survived--------------------------------------
+    if(balloonsKilledThisWave == balloonsMax){
+      waveSurvived();  
+    }
+
+	//------------------------------------------Turret---------------------------------------a
 	mainTurrent.display();
 	mainTurrent.move();
-	if (mainTurrent.hitScan()){
-		gameOver();
-	}
-	
+
 	//------------------------------------------TUTORIAL------------------------------------------------
 	noStroke();
-	if (targetTimer < 500){
+	if (targetTimer < 500 && waveNum < 2){
 		textAlign(LEFT);
 		textFont('Helvetica');
 		textSize(14);
@@ -102,9 +110,6 @@ function draw() {
 		text("mouse: aim", 35, 50);
 		text("left click: fire", 35, 65);
 	}
-	fill(60);
-	textAlign(CENTER);
-	text("version 1.06 by carrefinho", 300, 580);
 }
 
 

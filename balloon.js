@@ -1,33 +1,19 @@
 class balloon{
 	constructor(){
-		this.side = int(1);
-		switch (this.side)
-		{
-			case 0:
-				this.x = 0;
-				this.y = int(random(height));
-				break;
-			case 1:
-				this.x = int(random(width));
-				this.y = 0;
-				break;
-			case 2:
-				this.x = width;
-				this.y = int(random(height));
-				break;
-			case 3:
-				this.x = int(random(width));
-				this.y = height;
-				break;
+		this.x = int(random(width));
+		this.y = 0;
+		this.xSpd = 0;
+		if(waveNum < 5){
+			this.ySpd = balloonSpawnMultiplier;
 		}
-		this.targetX = turPosX;
-		this.targetY = turPosY;
-		this.targetDir = createVector(this.targetX - this.x, this.targetY - this.y);
-		this.targetDir.normalize();
-		this.xSpd = this.targetDir.x*balloonSpawnMultiplier;
-		this.ySpd = this.targetDir.y*balloonSpawnMultiplier;
+		else if(waveNum < 10 && waveNum > 5){
+			this.ySpd = getRandomInt(0,1)+balloonSpawnMultiplier;
+		}
+		else{
+			this.ySpd = getRandomInt(0,2)+balloonSpawnMultiplier;
+		}
 		this.r = 12*balloonSizeMultiplier;
-		
+		this.health = 1;
 	}
 	
 	display(){
@@ -46,7 +32,6 @@ class balloon{
 	outOfBounds(){
 		return(this.x > width+10 || this.x < -10 || this.y > height+10 || this.y < -10);
 	}
-	
 	myX(){
 		return this.x;
 	}

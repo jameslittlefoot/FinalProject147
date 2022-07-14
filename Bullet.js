@@ -29,7 +29,7 @@ class bullet{
 		for (var i = 0; i < targetBalloons.length; i++){
 			var collideOrNot = collideCircleCircle(this.x, this.y, 10, targetBalloons[i].myX(), targetBalloons[i].myY(), targetBalloons[i].myR())
 			if (collideOrNot){
-				targetBalloons.splice(i,1);
+                targetBalloons.splice(i,1);                
 				score += 1;
 				return true;
 			}

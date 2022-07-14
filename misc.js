@@ -18,6 +18,59 @@ function drawReticle(){
 	line(turPosX, turPosY, mouseX, mouseY);
 }
 
+function waveSurvived(){
+	Survived.show();
+    Survived.position(250, 380);
+	Survived.size(100,30);
+	Survived.style('background-color', '#202020');
+	Survived.style('color', '#FFFFFF');
+	Survived.mousePressed(nextWave);
+
+    textFont('Georgia');
+	textAlign(CENTER);
+	textSize(50);
+	fill(0,255,0);
+	text("Wave " + waveNum +" Survived!",300,300)
+
+    textFont('Helvetica');
+	textSize(18);
+	fill(235);
+	let scoreString = "score: " + score;
+	text(scoreString, 150, 340);
+
+    textFont('Helvetica');
+	textSize(18);
+	fill(235);
+	let killCount = "Balloons killed: " + balloonsKilledTotal;
+	text(killCount, 350, 340);
+}
+
+function getRandomInt(min,max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function nextWave(){
+	Survived.hide();
+    waveNum++;
+	bulletsFired = [];
+	targetBalloons = [];
+	targetTimer = 0;
+    balloonsKilledThisWave = 0;
+	balloonSpawnMultiplier = 1;
+	balloonSizeMultiplier = 2;
+    balloonsSpawned = 0;
+    if(waveNum < 5){
+        balloonsMax += getRandomInt(2,5);
+    }
+    else if(waveNum < 10 && waveNum > 5){
+        balloonsMax += getRandomInt(5,10);
+    }
+    else{
+        balloonsMax += getRandomInt(8,15);
+    }
+
+}
+
 function gameOver(){
 	push()
 	
@@ -30,7 +83,7 @@ function gameOver(){
 	textAlign(CENTER);
 	textSize(50);
 	fill(170,20,20);
-	text("YOU DIED",300,300)
+	text("GAME OVER",300,300)
 		
 	textFont('Helvetica');
 	textSize(18);
@@ -64,8 +117,11 @@ function reset(){
 	bulletsFired = [];
 	targetBalloons = [];
 	turPosX = 300;
-	turPosY = 300;
+	turPosY = 500;
 	targetTimer = 0;
+    balloonsMax = 5;
+    balloonsSpawned = 0;
+    balloonsKilledThisWave = 0;
 	balloonSpawnMultiplier = 2;
 	balloonSizeMultiplier = 2;
 	score = 0;
