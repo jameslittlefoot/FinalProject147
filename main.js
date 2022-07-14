@@ -23,6 +23,7 @@ function setup() {
 	mainTurrent = new turret(300,300);
     bLine = new boundaryline();
 	Retry = createButton('retry');
+	Retry.hide();
     Survived = createButton('Continue')
 	Survived.hide();
 	
