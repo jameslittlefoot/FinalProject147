@@ -2,7 +2,7 @@ class turret{
 	constructor(){
 	}
 	
-	display(){
+	display(playerSprite){
 		push()
 		stroke(0, 0, 255);
 		fill(0, 0, 255);
@@ -12,10 +12,16 @@ class turret{
 	
 	move(){
 			if ((keyIsDown(65) || keyIsDown(LEFT_ARROW)) && turPosX > 5) {
-    			turPosX -= 5;
+    			turPosX -= moveSpeed;
 	  		}
   			if ((keyIsDown(68) || keyIsDown(RIGHT_ARROW)) && turPosX < width-5) {
-    			turPosX += 5;
+    			turPosX += moveSpeed;
+  			}
+			if ((keyIsDown(87) || keyIsDown(UP_ARROW)) && turPosY > 470) {
+    			turPosY -= moveSpeed;
+  			}
+  			if ((keyIsDown(83) || keyIsDown(DOWN_ARROW)) && turPosY < height-20) {
+    			turPosY += moveSpeed;
   			}
 		}
 	

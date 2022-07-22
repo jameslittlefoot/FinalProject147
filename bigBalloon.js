@@ -1,28 +1,26 @@
-class balloon{
+class bigBalloon{
 	constructor(){
 		this.x = int(random(width));
 		this.y = 0;
 		this.xSpd = 0;
-		if(waveNum < 5){
-			this.health = 1;
-			this.ySpd = balloonSpawnMultiplier;
+		this.ySpd = balloonSpawnMultiplier;
+		this.r = 25*balloonSizeMultiplier;
+        if(waveNum < 5){
+			this.health = 3-maxHealthReduce;
 		}
-		else if(waveNum < 10 && waveNum > 5){
-			this.health = 1;
-			this.ySpd = getRandomInt(0,1)+balloonSpawnMultiplier;
+		else if(waveNum < 12 && waveNum > 5){
+			this.health = getRandomInt(3,4)-maxHealthReduce;
 		}
 		else{
-			this.health = 2;
-			this.ySpd = getRandomInt(0,2)+balloonSpawnMultiplier;
+			this.health = getRandomInt(3,6)-maxHealthReduce;
 		}
-		this.r = 12*balloonSizeMultiplier;
 	}
 	
 	display(){
 		push();
 		noStroke();
-		fill(255, 0, 0);
-		ellipse(this.x, this.y, this.r);
+		fill(0, 255, 0);
+		rect(this.x, this.y, this.r);
 		pop();
 	}
 	
